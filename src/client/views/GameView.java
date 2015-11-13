@@ -32,7 +32,7 @@ public class GameView extends JFrame {
 		// I don't know why it is not working!
 		setTitle(username);
 
-		container = new JPanel();
+		container = new JPanel(null);
 		// container.setSize(140, 480);
 		container.setBackground(Color.WHITE);
 

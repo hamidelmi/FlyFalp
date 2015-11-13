@@ -41,6 +41,7 @@ public class GameController implements IGameClient {
 			frame.setVisible(true);
 
 			gameView.updateScores(playersScore);
+			gameView.showFly(50, 60);
 			guiInitiated = true;
 		} catch (Exception ex) {
 			System.out.println("Connection failed");
@@ -53,7 +54,6 @@ public class GameController implements IGameClient {
 			@Override
 			public void run() {
 				new GameController();
-
 			}
 		});
 	}
