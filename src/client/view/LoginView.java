@@ -1,10 +1,16 @@
-package client.views;
+package client.view;
 
 import java.awt.*;
 import java.awt.event.*;
 
 import javax.swing.*;
 
+/**
+ * @author hamidelmi
+ *
+ *         Show a simple login dialog to ask users his/her name
+ */
+@SuppressWarnings("serial")
 public class LoginView extends JDialog {
 
 	private final JLabel jlblUsername = new JLabel("Username");
@@ -15,16 +21,32 @@ public class LoginView extends JDialog {
 
 	private final JLabel jlblStatus = new JLabel(" ");
 
+	/**
+	 * Default Constructor
+	 */
 	public LoginView() {
 		this(null, true);
 	}
 
+	/**
+	 * Constructor
+	 * 
+	 * @param parent
+	 * @param modal
+	 */
 	public LoginView(final JFrame parent, boolean modal) {
 		super(parent, modal);
 
 		init();
 	}
 
+	/**
+	 * Constructor
+	 * 
+	 * @param owner
+	 * @param title
+	 * @param modalityType
+	 */
 	public LoginView(Window owner, String title,
 			Dialog.ModalityType modalityType) {
 		super(owner, title, modalityType);
@@ -70,11 +92,14 @@ public class LoginView extends JDialog {
 		jbtOk.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				self.dispose();				
+				self.dispose();
 			}
 		});
 	}
 
+	/**
+	 * @return username that user entered in the text field
+	 */
 	public String getUsername() {
 		return jtfUsername.getText();
 	}

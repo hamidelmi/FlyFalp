@@ -1,4 +1,4 @@
-package client.views;
+package client.view;
 
 import java.awt.*;
 import java.awt.Dialog.ModalityType;
@@ -8,6 +8,7 @@ import java.util.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
 import client.controller.*;
 
 /**
@@ -27,6 +28,11 @@ public class GameView extends JFrame {
 	 */
 	public GameView(GameController gc) {
 		this.controller = gc;
+		this.setTitle("Fly Flap!");
+		this.setBackground(Color.BLACK);
+		this.setSize(640, 480);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setLocationRelativeTo(null);
 	}
 
 	/**
@@ -34,9 +40,9 @@ public class GameView extends JFrame {
 	 * 
 	 * @return player name
 	 */
-	public String showLoginDialog() {
+	public String showLoginDialog(String errorMessage) {
 		Window win = SwingUtilities.getWindowAncestor(this);
-		loginDialog = new LoginView(win, "Login",
+		loginDialog = new LoginView(win, errorMessage,
 				ModalityType.APPLICATION_MODAL);
 		loginDialog.setVisible(true);
 

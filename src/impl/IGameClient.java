@@ -5,11 +5,13 @@ import java.rmi.RemoteException;
 
 /**
  * @author hamidelmi
- * Callback interface 
+ * 
+ *         Client interface and its Callback
  */
 public interface IGameClient extends Remote {
 	/**
 	 * Will be called when someone hunt the fly
+	 * 
 	 * @param playerName
 	 * @param newPoints
 	 * @throws RemoteException
@@ -19,6 +21,7 @@ public interface IGameClient extends Remote {
 
 	/**
 	 * Will be called whenever the position of fly changes
+	 * 
 	 * @param x
 	 * @param y
 	 * @throws RemoteException

@@ -6,12 +6,18 @@ import java.net.InetAddress;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
+/**
+ * @author hamidelmi
+ * 
+ *         Launch server
+ */
 public class ServerLauncher {
 
-	public ServerLauncher() {
-
-	}
-
+	/**
+	 * starting point
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		String ipAddress;
 		int port;

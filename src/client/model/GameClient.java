@@ -1,7 +1,5 @@
 package client.model;
 
-import java.io.Serializable;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -9,10 +7,22 @@ import java.rmi.server.UnicastRemoteObject;
 
 import impl.*;
 
+/**
+ * @author hamidelmi
+ * 
+ *         Manage underlying connection to the server and callbacks
+ */
+@SuppressWarnings("serial")
 public class GameClient extends UnicastRemoteObject implements IGameClient {
 	private IGameServer gameServer;
 	private IGameClient handler;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param handler
+	 * @throws Exception
+	 */
 	public GameClient(IGameClient handler) throws Exception {
 		this.handler = handler;
 		String ipAddress = "127.0.0.1";

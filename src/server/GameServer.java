@@ -59,7 +59,7 @@ public class GameServer extends UnicastRemoteObject implements IGameServer {
 			Map.Entry<Player, IGameClient> pair = it.next();
 			try {
 				pair.getValue().receiveFlyHunted(update.getName(),
-						update.getRemoveMark() ? -1 : update.getScore());
+						update.getScore());
 			} catch (RemoteException ex) {
 
 			}

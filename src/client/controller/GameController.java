@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import client.model.GameClient;
-import client.views.GameView;
+import client.view.GameView;
 
 public class GameController implements IGameClient {
 	private GameClient gameClient;
@@ -23,32 +23,32 @@ public class GameController implements IGameClient {
 	public GameController() {
 		gameView = new GameView(this);
 		playersScore = new HashMap<String, Integer>();
-		username = gameView.showLoginDialog();
+		String errorMessage = "Login";
+		while (!guiInitiated) {
+			username = gameView.showLoginDialog(errorMessage);
+			System.out
+					.println("Try to connet '" + username + "' to the server");
+			try {
+				initConnection();
 
-		System.out.println("Try to connet '" + username + "' to the server");
+				System.out.println("Connected to the server\r\nReady to play");
 
-		try {
-			gameClient = new GameClient(this);
-			gameClient.login(username);
-
-			System.out.println("Connected to the server\r\nReady to play");
-
-			JFrame frame = gameView;
-			frame.setTitle("Fly Flap!");
-			frame.setBackground(Color.BLACK);
-			frame.setSize(640, 480);
-			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			frame.setLocationRelativeTo(null);
-			gameView.startGame(username);
-			frame.setVisible(true);
-
-			gameView.updateScores(playersScore);
-			gameView.showFly(x, y);
-			guiInitiated = true;
-		} catch (Exception ex) {
-			System.out.println("Connection failed");
-			ex.printStackTrace();
+				gameView.startGame(username);
+				gameView.setVisible(true);
+				gameView.updateScores(playersScore);
+				gameView.showFly(x, y);
+				guiInitiated = true;
+			} catch (Exception ex) {
+				errorMessage = ex.getCause().getMessage();
+				System.out.println("Connection failed");
+				ex.printStackTrace();
+			}
 		}
+	}
+
+	private void initConnection() throws Exception {
+		gameClient = new GameClient(this);
+		gameClient.login(username);
 	}
 
 	public static void main(String[] args) {
