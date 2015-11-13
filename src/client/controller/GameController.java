@@ -17,11 +17,13 @@ public class GameController implements IGameClient {
 	private GameView gameView;
 	private HashMap<String, Integer> playersScore;
 	private boolean guiInitiated = false;
+	private int x, y;
+	private String username;
 
 	public GameController() {
-		gameView = new GameView();
+		gameView = new GameView(this);
 		playersScore = new HashMap<String, Integer>();
-		String username = gameView.showLoginDialog();
+		username = gameView.showLoginDialog();
 
 		System.out.println("Try to connet '" + username + "' to the server");
 
@@ -41,7 +43,7 @@ public class GameController implements IGameClient {
 			frame.setVisible(true);
 
 			gameView.updateScores(playersScore);
-			gameView.showFly(50, 60);
+			gameView.showFly(x, y);
 			guiInitiated = true;
 		} catch (Exception ex) {
 			System.out.println("Connection failed");
@@ -71,6 +73,19 @@ public class GameController implements IGameClient {
 
 	@Override
 	public void receiveFlyPosition(int x, int y) {
-		gameView.showFly(x, y);
+		this.x = x;
+		this.y = y;
+		if (guiInitiated)
+			gameView.showFly(x, y);
 	}
+
+	public void flyHunted() {
+		try {
+			gameClient.huntFly(username);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 }

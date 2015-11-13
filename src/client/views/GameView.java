@@ -5,22 +5,34 @@ import java.awt.Dialog.ModalityType;
 import java.awt.event.*;
 import java.io.File;
 import java.util.*;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import client.controller.*;
 
+/**
+ * @author hamidelmi
+ * 
+ *         View(GUI) of the game
+ */
+@SuppressWarnings("serial")
 public class GameView extends JFrame {
+	private GameController controller;
 	private LoginView loginDialog;
+	private JLabel fly, scores;
+	private JPanel container, scorePanel;
 
-	JLabel fly, scores;
-	JPanel container, scorePanel;
-
-	public GameView() {
+	public GameView(GameController gc) {
+		this.controller = gc;
 	}
 
+	/**
+	 * Shows a login dialog (modal) and asks for a name
+	 * 
+	 * @return player name
+	 */
 	public String showLoginDialog() {
-
 		Window win = SwingUtilities.getWindowAncestor(this);
-
 		loginDialog = new LoginView(win, "Login",
 				ModalityType.APPLICATION_MODAL);
 		loginDialog.setVisible(true);
@@ -28,6 +40,11 @@ public class GameView extends JFrame {
 		return loginDialog.getUsername();
 	}
 
+	/**
+	 * Initialize the GUI elements
+	 * 
+	 * @param username
+	 */
 	public void startGame(String username) {
 		// I don't know why it is not working!
 		setTitle(username);
@@ -45,7 +62,7 @@ public class GameView extends JFrame {
 		fly.setSize(32, 32);
 		fly.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				setTitle("Clicked");
+				controller.flyHunted();
 			}
 		});
 
@@ -67,6 +84,11 @@ public class GameView extends JFrame {
 		add(p);
 	}
 
+	/**
+	 * Show players scores on the left side of the screen
+	 * 
+	 * @param scores
+	 */
 	public void updateScores(HashMap<String, Integer> scores) {
 		if (this.scores != null) {
 			StringBuilder sb = new StringBuilder("<html>");
@@ -80,7 +102,15 @@ public class GameView extends JFrame {
 		}
 	}
 
+	/**
+	 * Change the position of the fly
+	 * 
+	 * @param x
+	 * @param y
+	 */
 	public void showFly(int x, int y) {
-		fly.setLocation(x, y);
+		if (fly != null) 
+			fly.setLocation(x * (container.getWidth() - fly.getWidth()) / 100,
+					y * (container.getHeight() - fly.getHeight()) / 100);
 	}
 }
