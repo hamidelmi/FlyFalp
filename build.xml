@@ -1,0 +1,24 @@
+<project>
+
+	<description>
+		TK1 - Programmieraufgabe 1
+	</description>
+
+    <target name="clean">
+    	<!--  -->   
+    </target>
+
+    <target name="compile">
+    	<!--  -->    
+    </target>
+
+    <target name="jar">
+    	<!-- generate jars -->
+    </target>
+
+    <target name="run">
+    	<parallel>
+    		<!-- start here one server and two clients -->
+    	</parallel>        
+    </target>
+</project>
