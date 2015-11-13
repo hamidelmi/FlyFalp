@@ -22,6 +22,9 @@ public class GameView extends JFrame {
 	private JLabel fly, scores;
 	private JPanel container, scorePanel;
 
+	/**
+	 * @param gc
+	 */
 	public GameView(GameController gc) {
 		this.controller = gc;
 	}
@@ -82,6 +85,13 @@ public class GameView extends JFrame {
 
 		p.add(scorePanel);
 		add(p);
+		addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+				controller.logout();
+				System.exit(0);
+			}
+		});
 	}
 
 	/**
@@ -109,7 +119,7 @@ public class GameView extends JFrame {
 	 * @param y
 	 */
 	public void showFly(int x, int y) {
-		if (fly != null) 
+		if (fly != null)
 			fly.setLocation(x * (container.getWidth() - fly.getWidth()) / 100,
 					y * (container.getHeight() - fly.getHeight()) / 100);
 	}

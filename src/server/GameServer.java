@@ -6,11 +6,23 @@ import java.util.*;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
+/**
+ * Coordinate central logic of the game and communicate with all of the players
+ * 
+ * @author hamidelmi
+ *
+ */
+@SuppressWarnings("serial")
 public class GameServer extends UnicastRemoteObject implements IGameServer {
 	private int x, y;
 	private HashMap<Player, IGameClient> players;
 	private static Random rand = new Random();
 
+	/**
+	 * Constructor
+	 * 
+	 * @throws RemoteException
+	 */
 	public GameServer() throws RemoteException {
 		players = new HashMap<Player, IGameClient>();
 		setNewPoint();
@@ -27,8 +39,17 @@ public class GameServer extends UnicastRemoteObject implements IGameServer {
 		notifyPlayers(x, y);
 	}
 
-	private void notifyRemovePlayer(Player update) {
+	private void notifyRemovePlayer(String playerName) {
+		Iterator<Map.Entry<Player, IGameClient>> it = players.entrySet()
+				.iterator();
+		while (it.hasNext()) {
+			Map.Entry<Player, IGameClient> pair = it.next();
+			try {
+				pair.getValue().receiveFlyHunted(playerName, -1);
+			} catch (RemoteException ex) {
 
+			}
+		}
 	}
 
 	private void notifyPlayers(Player update) {
@@ -105,6 +126,7 @@ public class GameServer extends UnicastRemoteObject implements IGameServer {
 			Player player = item.getKey();
 
 			players.remove(player);
+			notifyRemovePlayer(player.getName());
 		}
 	}
 

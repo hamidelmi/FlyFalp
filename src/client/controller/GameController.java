@@ -62,9 +62,12 @@ public class GameController implements IGameClient {
 
 	@Override
 	public void receiveFlyHunted(String playerName, int newPoints) {
-		if (playersScore.containsKey(playerName))
-			playersScore.replace(playerName, newPoints);
-		else
+		if (playersScore.containsKey(playerName)) {
+			if (newPoints == -1)
+				playersScore.remove(playerName);
+			else
+				playersScore.replace(playerName, newPoints);
+		} else
 			playersScore.put(playerName, newPoints);
 
 		if (guiInitiated)
@@ -88,4 +91,12 @@ public class GameController implements IGameClient {
 		}
 	}
 
+	public void logout() {
+		try {
+			gameClient.logout(username);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

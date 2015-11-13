@@ -38,17 +38,36 @@ public class GameClient extends UnicastRemoteObject implements IGameClient {
 			handler.receiveFlyPosition(x, y);
 	}
 
+	/**
+	 * Call method on the server to let it know that a new player logged in
+	 * 
+	 * @param username
+	 * @throws RemoteException
+	 */
 	public void login(String username) throws RemoteException {
 		gameServer.login(username, this);
 	}
 
 	/**
-	 * Call method on the server to let it know that this player has 
-	 * just hunted a fly
+	 * Call method on the server to let it know that this player has just hunted
+	 * a fly
+	 * 
 	 * @param playerName
 	 * @throws RemoteException
 	 */
 	public void huntFly(String playerName) throws RemoteException {
 		gameServer.huntFly(playerName);
 	}
+
+	/**
+	 * Call method on the server to let it know that this player has just logged
+	 * out
+	 * 
+	 * @param playerName
+	 * @throws RemoteException
+	 */
+	public void logout(String playerName) throws RemoteException {
+		gameServer.logout(playerName);
+	}
+
 }
