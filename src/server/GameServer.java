@@ -83,6 +83,12 @@ public class GameServer extends UnicastRemoteObject implements IGameServer {
 			// Let the new player knows about the current
 			// position of the fly
 			client.receiveFlyPosition(x, y);
+			Iterator<Map.Entry<Player, IGameClient>> it = players.entrySet()
+					.iterator();
+			while (it.hasNext()) {
+				Player p = it.next().getKey();
+				client.receiveFlyHunted(p.getName(), p.getScore());
+			}
 		} else
 			throw new RemoteException("Doublicate player name!");
 	}
