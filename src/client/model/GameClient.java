@@ -1,31 +1,44 @@
 package client.model;
 
 import java.io.Serializable;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 
 import impl.*;
 
-public class GameClient implements Serializable, IGameClient {
+public class GameClient extends UnicastRemoteObject implements IGameClient {
+	private IGameServer gameServer;
+	private IGameClient handler;
+
+	public GameClient(IGameClient handler) throws Exception {
+		this.handler = handler;
+		String ipAddress = "127.0.0.1";
+		int port = 8118;
+		Registry registry = LocateRegistry.getRegistry(ipAddress, port);
+		gameServer = (IGameServer) registry.lookup(IGameServer.bindName);
+	}
 
 	@Override
 	public void receiveFlyHunted(String playerName, int newPoints)
 			throws RemoteException {
+		System.out.println("receiveFlyHunted: (" + playerName + "," + newPoints
+				+ ")");
+		if (handler != null)
+			handler.receiveFlyHunted(playerName, newPoints);
 	}
 
 	@Override
 	public void receiveFlyPosition(int x, int y) throws RemoteException {
+		System.out.println("receiveFlyPosition: (" + x + "," + y + ")");
 
+		if (handler != null)
+			handler.receiveFlyPosition(x, y);
 	}
 
-	public void login(String username) throws Exception {
-		String ipAddress = "127.0.0.1";
-		int port = 8118;
-		Registry registry = LocateRegistry.getRegistry(ipAddress, port);
-		IGameServer gameServer = (IGameServer) registry
-				.lookup(IGameServer.bindName);
-
+	public void login(String username) throws RemoteException {
 		gameServer.login(username, this);
 	}
 }

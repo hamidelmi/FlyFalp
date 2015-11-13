@@ -4,12 +4,11 @@ import java.awt.*;
 import java.awt.Dialog.ModalityType;
 import java.awt.event.*;
 import java.io.File;
-
+import java.util.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class GameView extends JFrame {
-
 	private LoginView loginDialog;
 
 	JLabel fly, scores;
@@ -68,7 +67,20 @@ public class GameView extends JFrame {
 		add(p);
 	}
 
-	public void updateScores() {
-		// scores
+	public void updateScores(HashMap<String, Integer> scores) {
+		if (this.scores != null) {
+			StringBuilder sb = new StringBuilder("<html>");
+			for (Map.Entry<String, Integer> entry : scores.entrySet()) {
+				String player = entry.getKey();
+				Integer score = entry.getValue();
+				sb.append(player + ":" + score + "<br/>");
+			}
+			sb.append("</html>");
+			this.scores.setText(sb.toString());
+		}
+	}
+
+	public void showFly(int x, int y) {
+		fly.setLocation(x, y);
 	}
 }
