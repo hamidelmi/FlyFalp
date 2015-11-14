@@ -20,7 +20,7 @@ public class GameController implements IGameClient {
 	private int x, y;
 	private String username;
 
-	public GameController() {
+	public GameController(String ipAddress) {
 		gameView = new GameView(this);
 		playersScore = new HashMap<String, Integer>();
 		String errorMessage = "Login";
@@ -29,7 +29,7 @@ public class GameController implements IGameClient {
 			System.out
 					.println("Try to connet '" + username + "' to the server");
 			try {
-				initConnection();
+				initConnection(ipAddress);
 
 				System.out.println("Connected to the server\r\nReady to play");
 
@@ -46,8 +46,8 @@ public class GameController implements IGameClient {
 		}
 	}
 
-	private void initConnection() throws Exception {
-		gameClient = new GameClient(this);
+	private void initConnection(String ipAddress) throws Exception {
+		gameClient = new GameClient(ipAddress, this);
 		gameClient.login(username);
 	}
 
@@ -55,7 +55,8 @@ public class GameController implements IGameClient {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				new GameController();
+
+				new GameController(args.length > 0 ? args[0] : "");
 			}
 		});
 	}

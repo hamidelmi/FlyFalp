@@ -25,7 +25,8 @@ public class GameClient extends UnicastRemoteObject implements IGameClient {
 	 */
 	public GameClient(String ipAddress, IGameClient handler) throws Exception {
 		this.handler = handler;
-		ipAddress = "127.0.0.1";
+		if (ipAddress == null || ipAddress.equals(""))
+			ipAddress = "127.0.0.1";
 		int port = 8118;
 		Registry registry = LocateRegistry.getRegistry(ipAddress, port);
 		gameServer = (IGameServer) registry.lookup(IGameServer.bindName);
