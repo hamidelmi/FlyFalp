@@ -4,21 +4,44 @@
 		TK1 - Programmieraufgabe 1
 	</description>
 
-    <target name="clean">
-    	<!--  -->   
+	<target name="clean">
+		<delete dir="bin" />
+	</target>
+
+	<target name="compile">
+		<mkdir dir="bin/impl" />
+		<mkdir dir="bin/server" />
+		<mkdir dir="bin/client" />
+		<javac srcdir="src" destdir="bin" />
+	</target>
+
+	<!-- <target name="stubCreation" depends="compile" description="Stub creation"> 
+		<exec executable="rmic"> <arg value="server.GameServer" /> </exec> </target> -->
+
+	<target name="jar">
+		<mkdir dir="build/jar"/>
+		 <jar destfile="build/jar/server.jar" basedir="bin">
+            <manifest>
+                <attribute name="Main-Class" value="server.ServerLauncher"/>
+            </manifest>
+        </jar>
+        <jar destfile="build/jar/client.jar" basedir="bin">
+            <manifest>
+                <attribute name="Main-Class" value="client.controller.GameController"/>
+            </manifest>
+        </jar>
+	</target>
+
+	<target name="run">
+		<parallel>
+	        <java jar="build/jar/server.jar" fork="true"/>
+	        <java jar="build/jar/client.jar" fork="true"/>
+	        <java jar="build/jar/client.jar" fork="true"/>
+    	</parallel>
     </target>
 
-    <target name="compile">
-    	<!--  -->    
-    </target>
-
-    <target name="jar">
-    	<!-- generate jars -->
-    </target>
-
-    <target name="run">
-    	<parallel>
-    		<!-- start here one server and two clients -->
-    	</parallel>        
-    </target>
+	<!-- <target name="run" depends="stubCreation"> <parallel> <java fork="yes" 
+		className="sun.rmi.registry.RegistryImpl" /> <runserver /> <runclient taskname="Client 
+		1"><arg value="Hamid" /></runclient> <runclient taskname="Client 2"><arg 
+		value="Ehsan" /></runclient> </parallel> </target> -->
 </project>

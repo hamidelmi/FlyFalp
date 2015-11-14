@@ -23,7 +23,7 @@ public class GameClient extends UnicastRemoteObject implements IGameClient {
 	 * @param handler
 	 * @throws Exception
 	 */
-	public GameClient(IGameClient handler) throws Exception {
+	public GameClient(String ipAddress, IGameClient handler) throws Exception {
 		this.handler = handler;
 		String ipAddress = "127.0.0.1";
 		int port = 8118;
