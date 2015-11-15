@@ -51,7 +51,7 @@ public class GameController implements IGameClient {
 		gameClient.login(username);
 	}
 
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
@@ -66,8 +66,10 @@ public class GameController implements IGameClient {
 		if (playersScore.containsKey(playerName)) {
 			if (newPoints == -1)
 				playersScore.remove(playerName);
-			else
-				playersScore.replace(playerName, newPoints);
+			else{
+				playersScore.remove(playerName);
+				playersScore.put(playerName, newPoints);
+			}				
 		} else
 			playersScore.put(playerName, newPoints);
 

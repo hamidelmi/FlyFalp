@@ -6,19 +6,17 @@
 
 	<target name="clean">
 		<delete dir="bin" />
+		<delete dir="build" />
 	</target>
 
-	<target name="compile">
+	<target name="compile" depends="clean">
 		<mkdir dir="bin/impl" />
 		<mkdir dir="bin/server" />
 		<mkdir dir="bin/client" />
 		<javac srcdir="src" destdir="bin" />
 	</target>
 
-	<!-- <target name="stubCreation" depends="compile" description="Stub creation"> 
-		<exec executable="rmic"> <arg value="server.GameServer" /> </exec> </target> -->
-
-	<target name="jar">
+	<target name="jar" depends="compile">
 		<mkdir dir="build/jar"/>
 		 <jar destfile="build/jar/server.jar" basedir="bin">
             <manifest>
@@ -32,16 +30,11 @@
         </jar>
 	</target>
 
-	<target name="run">
+	<target name="run"  depends="run">
 		<parallel>
 	        <java jar="build/jar/server.jar" fork="true"/>
-	        <java jar="build/jar/client.jar" fork="true"/>
-	        <java jar="build/jar/client.jar" fork="true"/>
+	        <java jar="build/jar/client.jar" fork="true"><arg value="127.0.0.1" /></java>
+	        <java jar="build/jar/client.jar" fork="true"><arg value="127.0.0.1" /></java>
     	</parallel>
     </target>
-
-	<!-- <target name="run" depends="stubCreation"> <parallel> <java fork="yes" 
-		className="sun.rmi.registry.RegistryImpl" /> <runserver /> <runclient taskname="Client 
-		1"><arg value="Hamid" /></runclient> <runclient taskname="Client 2"><arg 
-		value="Ehsan" /></runclient> </parallel> </target> -->
 </project>

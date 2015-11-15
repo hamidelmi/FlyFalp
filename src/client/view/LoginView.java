@@ -88,7 +88,7 @@ public class LoginView extends JDialog {
 			}
 		});
 
-		LoginView self = this;
+		final LoginView self = this;
 		jbtOk.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
