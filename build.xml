@@ -30,7 +30,7 @@
         </jar>
 	</target>
 
-	<target name="run"  depends="run">
+	<target name="run" depends="jar">
 		<parallel>
 	        <java jar="build/jar/server.jar" fork="true"/>
 	        <java jar="build/jar/client.jar" fork="true"><arg value="127.0.0.1" /></java>
